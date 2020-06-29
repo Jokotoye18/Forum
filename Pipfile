@@ -12,6 +12,13 @@ django-crispy-forms = "*"
 django-allauth = "*"
 markdown = "*"
 pillow = "*"
+python-decouple = "*"
+django-debug-toolbar = "*"
+django-heroku = "*"
+dj-database-url = "*"
+gunicorn = "*"
+whitenoise = "*"
+sentry-sdk = "*"
 
 [requires]
 python_version = "3.8"

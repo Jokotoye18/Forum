@@ -11,6 +11,12 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from decouple import config
+from decouple import Csv
+import django_heroku
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,13 +26,27 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'i%3ghwu1qbh(57(j@#mqm9-ql!tv1d_a1hnx&5rz6==!&i8w$!'
+# SECRET_KEY = 'i%3ghwu1qbh(57(j@#mqm9-ql!tv1d_a1hnx&5rz6==!&i8w$!'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True #config('DEBUG', default=False, cast=bool)
+
+# ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='127.0.0.1', cast=Csv())
 
 ALLOWED_HOSTS = []
 
+ENVIRONMENT =config('ENVIRONMENT', default='production')
+
+
+sentry_sdk.init(
+    dsn=config('SENTRY_DSN'),
+    integrations=[DjangoIntegration()],
+
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
+)
 
 # Application definition
 
@@ -38,12 +58,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    'whitenoise.runserver_nostatic', 
     'django.contrib.sites',
 
     #third party app
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'debug_toolbar',
     
     #social 
     'allauth.socialaccount.providers.github', 
@@ -60,7 +82,9 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',# Whitenoise
     'django.middleware.common.CommonMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',# debug toolbar
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -140,6 +164,13 @@ USE_L10N = True
 
 USE_TZ = True
 
+#debug toolbar
+INTERNAL_IPS = [
+    # ...
+    '127.0.0.1',
+    # ...
+]
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
@@ -147,9 +178,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
@@ -173,3 +205,50 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True 
 ACCOUNT_USERNAME_REQUIRED  = True
 ACCOUNT_UNIQUE_USERNAME = True 
+
+
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+EMAIL_BACKEND = config('EMAIL_BACKEND')
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_PORT = config('EMAIL_PORT', cast=int)
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
+
+if ENVIRONMENT == 'production':
+    CACHE = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache', 
+            'LOCATION': '127.0.0.1:11211',
+            'OPTIONS': {
+                'server_max_value_length': 1024 * 1024 * 2,
+            }
+        }
+    }
+    
+    #HTTP Strict Transport Security (HSTS)
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = 3600
+    SECURE_HSTS_PRELOAD = True
+
+    #Cross-Site Request Forgery (CSRF)
+    CSRF_COOKIE_SECURE = True  # cookie will only be sent over an HTTPS connection
+    CSRF_COOKIE_HTTPONLY = True  # only accessible through http(s) request, JS not allowed to access csrf cookies
+
+    
+    X_FRAME_OPTIONS = 'DENY'
+    # SECURE_REFERRER_POLICY = 'same-origin'
+    
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SESSION_COOKIE_SECURE = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+    #Cross-Site Scripting (XSS)
+    SECURE_BROWSER_XSS_FILTER = True
+    SESSION_COOKIE_HTTPONLY = True
+    #django-csp(Details at official docs)
+
+django_heroku.settings(locals())
