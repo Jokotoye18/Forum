@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load humanize %} 
+
+
+{% block content %}
+<main class="container my-5" role="main">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <section style="margin-bottom: 8rem;" class="card">
+                <div class="text-center card-header">
+                    <h3>Reply</h3>
+                </div>
+                <div class="card-body">
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        {{form|crispy }}
+                        <button class="btn btn-dark">Reply</button>
+                    </form>
+                </div>
+            </section>
+            <button  class="btn btn-info">Subject</button>
+            <section style="margin-bottom: 2rem;" class="card mt-3">
+                <div class="card-body">
+                    <div class=" p-4 border border-dark mb-4">
+                        <div class="mb-2">
+                            <small class="badge badge-pill badge-primary">Created by {{ subject.created_by }} | {{ subject.created_on|naturaltime }}</small>
+                        </div>
+                        <p >{{ subject.get_message_as_markdown  }}</p>
+                    </div>
+                </div>
+            </section>
+            {% if replies %}
+            <button  class="btn btn-info">Reply</button>
+            <div class="card mt-3">
+                <section class="card-body ">
+                    {% for reply in replies %}
+                        <div class="p-4 border border-dark mb-4">
+                            <div class="mb-2">
+                                <small class="badge badge-pill badge-{{  reply.topic.board.get_badge_display }}">Created by {{ reply.created_by }} | {{ reply.created_on|naturaltime }}</small>
+                            </div>
+                            <p >{{ reply.get_message_as_markdown  }}</p>
+                        </div>
+                    {% endfor %}
+                </section>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</main>
+{% endblock %}
+{% block javascript %}
+  <script>
+    var simplemde = new SimpleMDE();
+  </script>
+{% endblock %}

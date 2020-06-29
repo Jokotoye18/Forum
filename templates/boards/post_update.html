@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+<h3>Edit your post here!</h3>
+
+{% block content %}
+<main class="container my-5" role="main">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="text-center card-header">
+                    <h3>Edit your post here!</h3>
+                </div>
+                <div class="card-body">
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        {{form|crispy }}
+                        <button class="btn btn-dark">Update</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+{% block javascript %}
+  <script>
+    var simplemde = new SimpleMDE();
+  </script>
+{% endblock %}

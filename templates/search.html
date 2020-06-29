@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load humanize %} 
+
+
+
+{% block content %}
+    <div class="container my-5">
+        <main role="main">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card">
+                        <section class="card-body ">
+                            {% if not search_list %}
+                            <p>No search found!</p>
+                            {% else %}
+                            <p>Here are your results!</p>
+                            {% for topic in search_list %}
+                            <ul>
+                                <li>
+                                    <a href="{% url 'boards:topic_posts' topic.board.slug topic.slug topic.pk %}">{{ topic }}</a>
+                                </li>
+                            </ul>
+                            {% endfor %}
+                            {% endif %}
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+{% endblock %}

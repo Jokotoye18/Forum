@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load humanize %} 
+
+
+
+{% block content %}
+    <div class="container my-5">
+        <main role="main">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <section class="card">
+                        <div class="card-header">
+                            <h4>{{ topic }}</h4>
+                            <small class="badge badge-pill badge-{{ topic.board.get_badge_display }}">{{ topic.board }}</small>
+                        </div>
+                    </section>
+                    <section style="margin-bottom: 8rem;" class="card">
+                        <div class="card-body">
+                            <div class=" p-4 border border-dark mb-4">
+                                <div class="mb-2">
+                                    <small class="badge badge-pill badge-primary">Created by {{ subject.created_by }} | {{ subject.created_on|naturaltime }}</small>
+                                </div>
+                                <p >{{ subject.get_message_as_markdown  }}</p>
+                                {% if subject.created_by == request.user %}
+                                    <a class="btn btn-info" href="{% url 'boards:post_update' topic.board.slug topic.slug topic.pk subject.pk %}">Edit</a>
+                                {% endif %}
+                            </div>
+                            <div class="">
+                                <a class="btn btn-dark" href="{% url 'boards:new_topic_post' topic.board.slug topic.slug topic.pk %}">Reply</a>
+                            </div>
+                        </div>
+                    </section>
+                    {% if replies %}
+                    <div class="card">
+                        <section class="card-body ">
+                            {% for reply in replies %}
+                                <div class="p-4 border border-dark mb-4">
+                                    <div class="mb-2">
+                                        <small class="badge badge-pill badge-dark">Created by {{ reply.created_by }} | {{ reply.created_on|naturaltime }}</small>
+                                    </div>
+                                    <p >{{ reply.get_message_as_markdown }}</p>
+                                    {% if reply.created_by == request.user %}
+                                        <a class="btn btn-info" href="{% url 'boards:post_update' topic.board.slug topic.slug topic.pk reply.pk %}">Edit</a>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </section>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </main>
+    </div>
+{% endblock %}

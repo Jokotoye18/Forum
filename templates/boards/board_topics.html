@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{%  load substract %}
+{% load humanize %} 
+
+{% block content %}
+<div class="container my-5">
+    <main role="main">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="text-center ">Welcome to {{ board }} board!</h2>
+                        <p>{{ board.description }}</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center my-2">
+                            <a class="btn btn-info btn-block" href="{% url 'boards:new_board_topic' board.slug %}">Add New Topic</a>
+                        </div>
+                        <div class="table-responsive-md">
+                            <table class="table table-hover table-bordered ">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">#</td>
+                                        <th scope="col">Topic</th>
+                                        <th scope="col">Starter</th>
+                                        <th scope="col">Replies</th>
+                                        <th scope="col">Views</th>
+                                        <th scope="col">Last Updated</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for topic in board_topics %}
+                                    <tr>
+                                        <th scope="row">{{ forloop.counter }}</th>
+                                        <td>
+                                            <a href="{% url 'boards:topic_posts' board.slug topic.slug topic.pk %}">{{ topic }}</a>
+                                        </td>
+                                        <td class="align-middle">{{ topic.starter }}</td>
+                                        <td class="align-middle">{{ topic.posts.count|substract_by:1 }}</td>
+                                        <td class="align-middle">{{ topic.views }}</td>
+                                        <td class="">{{ topic.updated_on|naturaltime }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>        
+    </main>
+</div>
+{% endblock content %}
