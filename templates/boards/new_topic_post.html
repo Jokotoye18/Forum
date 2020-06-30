@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load crispy_forms_tags %}
 {% load humanize %} 
+{% load gravatar %}
+
 
 
 {% block content %}
@@ -15,7 +18,7 @@
                     <form action="" method="POST">
                         {% csrf_token %}
                         {{form|crispy }}
-                        <button class="btn btn-dark">Reply</button>
+                        <input type="submit" value="Reply" class="btn btn-dark"></input>
                     </form>
                 </div>
             </section>
@@ -24,9 +27,17 @@
                 <div class="card-body">
                     <div class=" p-4 border border-dark mb-4">
                         <div class="mb-2">
-                            <small class="badge badge-pill badge-primary">Created by {{ subject.created_by }} | {{ subject.created_on|naturaltime }}</small>
+                            <small class="badge badge-pill badge-primary">Created by {{ subject.created_by.username }} | {{ subject.created_on|naturaltime }}</small>
                         </div>
-                        <p >{{ subject.get_message_as_markdown  }}</p>
+                        <div class="row">
+                            <div class="col-2">
+                                <img src="{{ subject.created_by|gravatar_img:50 }}" alt="{{ subject.created_by.username }}" class="w-100 rounded">
+                                <small>posts: {{ subject.created_by.posts.count }}</small>
+                            </div>
+                            <div class="col-10">
+                                <p>{{ subject.get_message_as_markdown  }}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -37,9 +48,17 @@
                     {% for reply in replies %}
                         <div class="p-4 border border-dark mb-4">
                             <div class="mb-2">
-                                <small class="badge badge-pill badge-{{  reply.topic.board.get_badge_display }}">Created by {{ reply.created_by }} | {{ reply.created_on|naturaltime }}</small>
+                                <small class="badge badge-pill badge-{{ reply.topic.board.get_badge_display }}">Created by {{ reply.created_by.username }} | {{ reply.created_on|naturaltime }}</small>
                             </div>
-                            <p >{{ reply.get_message_as_markdown  }}</p>
+                            <div class="row">
+                                <div class="col-2">
+                                    <img src="{{ reply.created_by|gravatar_img:50 }}" alt="{{ reply.created_by.username }}" class="w-100 rounded">
+                                    <small>posts: {{ reply.created_by.posts.count }}</small>
+                                </div>
+                                <div class="col-10">
+                                    <p>{{ reply.get_message_as_markdown  }}</p>
+                                </div>
+                            </div>
                         </div>
                     {% endfor %}
                 </section>
@@ -48,9 +67,4 @@
         </div>
     </div>
 </main>
-{% endblock %}
-{% block javascript %}
-  <script>
-    var simplemde = new SimpleMDE();
-  </script>
 {% endblock %}

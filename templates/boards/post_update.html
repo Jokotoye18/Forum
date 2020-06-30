@@ -1,7 +1,17 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{% load static %}
 
-<h3>Edit your post here!</h3>
+{% block stylesheet %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+{% endblock %}
+
+{% block javascript %}
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+    <script>
+        var simplemde = new SimpleMDE();
+    </script>
+{% endblock %}
 
 {% block content %}
 <main class="container my-5" role="main">
@@ -22,9 +32,4 @@
         </div>
     </div>
 </main>
-{% endblock %}
-{% block javascript %}
-  <script>
-    var simplemde = new SimpleMDE();
-  </script>
 {% endblock %}

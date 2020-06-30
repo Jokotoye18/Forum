@@ -17,6 +17,7 @@
                             <a class="btn btn-info btn-block" href="{% url 'boards:new_board_topic' board.slug %}">Add New Topic</a>
                         </div>
                         <div class="table-responsive-md">
+                            {% if board_topics %}
                             <table class="table table-hover table-bordered ">
                                 <thead class="thead-dark">
                                     <tr>
@@ -38,11 +39,12 @@
                                         <td class="align-middle">{{ topic.starter }}</td>
                                         <td class="align-middle">{{ topic.posts.count|substract_by:1 }}</td>
                                         <td class="align-middle">{{ topic.views }}</td>
-                                        <td class="">{{ topic.updated_on|naturaltime }}</td>
+                                        <td class="">{{ topic.posts.last.created_on|naturaltime }}</td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
                             </table>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

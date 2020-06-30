@@ -55,10 +55,11 @@ class TopicPostsView(DetailView):
         topic = get_object_or_404(Topic, slug=self.kwargs.get('topic_slug'), pk=self.kwargs.get('topic_pk'))
         subject = topic.posts.first()
         replies = topic.posts.all()[1:]
-        print(topic.posts.count())
-        print(replies.count())
-        topic.views += 1
-        topic.save()
+        session_key = f'viewed_topic_{topic.pk}'
+        if not request.session.get('session_key', False):
+            topic.views += 1
+            topic.save()
+            request.session['session_key'] = True
         context = {'topic':topic, 'subject': subject, 'replies': replies}
         return render(request, 'boards/topic_posts.html', context)
 

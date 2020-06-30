@@ -3,3 +3,7 @@
     top: 10rem;
     right: 0;
 }
+
+#hint_id_password1,.asteriskField, #hint_id_username{
+    display: none;
+}

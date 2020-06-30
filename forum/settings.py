@@ -39,14 +39,14 @@ ALLOWED_HOSTS = []
 ENVIRONMENT =config('ENVIRONMENT', default='production')
 
 
-sentry_sdk.init(
-    dsn=config('SENTRY_DSN'),
-    integrations=[DjangoIntegration()],
+# sentry_sdk.init(
+#     dsn=config('SENTRY_DSN'),
+#     integrations=[DjangoIntegration()],
 
-    # If you wish to associate users to errors (assuming you are using
-    # django.contrib.auth) you may enable sending PII data.
-    send_default_pii=True
-)
+#     # If you wish to associate users to errors (assuming you are using
+#     # django.contrib.auth) you may enable sending PII data.
+#     send_default_pii=True
+# )
 
 # Application definition
 
@@ -56,22 +56,23 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'django.contrib.humanize',
     'whitenoise.runserver_nostatic', 
+    'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django.contrib.humanize',
 
     #third party app
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'debug_toolbar',
+    'imagekit',
     
     #social 
     'allauth.socialaccount.providers.github', 
     'allauth.socialaccount.providers.google',
     'crispy_forms',
-    
+    'admin_honeypot',
 
     #local app
     'accounts',
@@ -180,11 +181,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# MEDIA_URL = '/media/'
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
-AUTH_USER_MODEL = 'accounts.CustomUser'
 LOGIN_REDIRECT_URL = 'pages:homepage'
 ACCOUNT_LOGOUT_REDIRECT  = 'pages:homepage'
 
@@ -207,8 +207,8 @@ ACCOUNT_USERNAME_REQUIRED  = True
 ACCOUNT_UNIQUE_USERNAME = True 
 
 
-if DEBUG:
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# if DEBUG:
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 EMAIL_BACKEND = config('EMAIL_BACKEND')
 EMAIL_HOST = config('EMAIL_HOST')
@@ -216,6 +216,9 @@ EMAIL_PORT = config('EMAIL_PORT', cast=int)
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
+
+DEFAULT_FROM_EMAIL = 'Forum <jokotoyeademola995@gmail.com>'
+
 
 if ENVIRONMENT == 'production':
     CACHE = {
