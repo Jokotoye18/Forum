@@ -1,10 +1,22 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{% load static %}
+{% block title %}Forum-create-new-topic{% endblock %}
 
+
+{% comment %}
 {% block stylesheet %}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
-{% endblock %}
+{% endblock stylesheet %}
 
+{% block javascript %}
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+    <script>
+        const simplemde = new SimpleMDE();
+        console.log(simplemde)
+    </script>
+{% endblock javascript %}
+{% endcomment %}
 
 {% block content %}
 <main class="container my-5" role="main">
@@ -25,9 +37,4 @@
         </div>
     </div>
 </main>
-{% endblock %}
-{% block javascript %}
-  <script>
-    var simplemde = new SimpleMDE();
-  </script>
 {% endblock %}

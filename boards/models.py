@@ -9,12 +9,13 @@ BADGES_CATEGORY = (
     ('P', 'primary'),
     ('S', 'success'),
     ('D', 'dark'),
+    ('W', 'warning'),
 )
 
 class Board(models.Model):
     name = models.CharField(max_length=100, unique=True)
     description = models.CharField(max_length=200)
-    badge = models.CharField(max_length=1, choices=BADGES_CATEGORY, default='S')
+    badge = models.CharField(max_length=1, choices=BADGES_CATEGORY)
     slug = models.SlugField(blank=True, max_length=100)
 
     objects = models.Manager()
@@ -43,7 +44,6 @@ class Topic(models.Model):
     topic = models.CharField(max_length=200) 
     slug = models.SlugField(blank=True, max_length=200)
     views = models.PositiveIntegerField(default=0)
-    # session = models.CharField(max_length=50, blank=True)
     starter = models.ForeignKey(get_user_model(), related_name="topics", null=True, on_delete=models.SET_NULL)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now_add=True)

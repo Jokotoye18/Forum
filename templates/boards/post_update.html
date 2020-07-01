@@ -1,17 +1,22 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% load static %}
+{% block title %}Forum-edit:{{ post }}{% endblock %}
 
+
+{% comment %}
 {% block stylesheet %}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
-{% endblock %}
+{% endblock stylesheet %}
 
 {% block javascript %}
     <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
     <script>
-        var simplemde = new SimpleMDE();
+        const simplemde = new SimpleMDE();
+        console.log(simplemde)
     </script>
-{% endblock %}
+{% endblock javascript %}
+{% endcomment %}
 
 {% block content %}
 <main class="container my-5" role="main">

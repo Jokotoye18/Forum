@@ -92,7 +92,7 @@ class PostUpdateView(View):
     def get(self, request, *args, **kwargs):
         post = get_object_or_404(Post, pk=self.kwargs.get('pk'))
         form = NewTopicPostForm(instance=post)
-        context = {'form': form}
+        context = {'form': form, 'post':post}
         return render(request, 'boards/post_update.html', context)
 
     def post(self, request, *args, **kwargs):
@@ -109,8 +109,11 @@ class SearchView(View):
     def get(self, request, *args, **kwargs):
         q = request.GET.get('q', None)
         if q is None:
-            search_list = None
+            search_list = []
+        elif str(q).strip() ==  '':
+            search_list = []
         else:
-            search_list = Topic.objects.filter(topic__icontains=q)        
-        context = {'search_list': search_list}
+            search_list = Topic.objects.filter(topic__icontains=q)
+            search_list = search_list.order_by('topic')       
+        context = {'search_list': search_list, 'q':q}
         return render(request, 'search.html', context)
