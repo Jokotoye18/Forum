@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 from django.views.generic import ListView, CreateView,DetailView, View
 from django.views.generic.edit import UpdateView, DeleteView
 from django.utils import timezone
+from django.contrib.admin.views.decorators import staff_member_required
 
 
 class BoardTopicsView(View):
@@ -125,16 +126,3 @@ class SearchView(View):
             search_list = search_list.order_by('topic')       
         context = {'search_list': search_list, 'q':q}
         return render(request, 'search.html', context)
-
-def cookie(request):
-    if 'fav_color' in request.COOKIES:
-        return HttpResponse('Your favourite color is %s' % request.COOKIES['fav_color'])
-    return HttpResponse('Your favourite color is not set!')
-
-def set_cookie(request):
-    if 'fav_cookie' in request.GET:
-        resp = HttpResponse('Your fav_colour is %s' % request.GET['fav_cookie'])
-        resp.set_cookie('fav_cookie', request.GET['fav_cookie'])
-        return resp
-    else:
-        return HttpResponse('No fav_cookie')

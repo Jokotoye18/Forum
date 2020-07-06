@@ -7,7 +7,6 @@ from boards.views import (
     NewTopicPostView, 
     PostUpdateView, 
     SearchView, 
-    cookie
 )
 
 
