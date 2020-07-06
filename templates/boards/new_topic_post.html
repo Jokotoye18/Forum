@@ -4,28 +4,16 @@
 {% load humanize %} 
 {% load gravatar %}
 
-{% block title %}Forum-reply:{{subject}}{% endblock %}
 
 
-{% comment %}
-{% block stylesheet %}
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
-{% endblock stylesheet %}
 
-{% block javascript %}
-    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
-    <script>
-        const simplemde = new SimpleMDE();
-        console.log(simplemde)
-    </script>
-{% endblock javascript %}
-{% endcomment %}
+
 
 
 {% block content %}
 <main class="container my-5" role="main">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-9">
             <section style="margin-bottom: 8rem;" class="card">
                 <div class="text-center card-header">
                     <h3>Reply</h3>
@@ -33,8 +21,10 @@
                 <div class="card-body">
                     <form action="" method="POST">
                         {% csrf_token %}
+                        {{form.media }}
                         {{form|crispy }}
-                        <input type="button" role="button" value="reply" class="btn btn-dark">
+                        <button class="btn btn-dark">reply</button>
+                        <!-- <input type="button" role="button" value="reply" class="btn btn-dark"> -->
                     </form>
                 </div>
             </section>
@@ -60,7 +50,7 @@
                 </div>
             </section>
             {% if replies %}
-            <!-- <button  class="btn btn-info">Reply</button> -->
+            <button  class="btn btn-info">Reply</button>
             <div class="card mt-3">
                 <section class="card-body ">
                     {% for reply in replies %}

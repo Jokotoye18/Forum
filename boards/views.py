@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404,redirect
 from django.contrib import messages
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.db.models import Q
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -43,9 +43,12 @@ class NewBoardTopicView(LoginRequiredMixin, View):
                 post = post,
                 created_by = request.user
             )
-            # messages.success(request, 'Topic created successfully')
+            messages.success(request, 'Topic created successfully')
             # Todo : change the redirect url
             return redirect(reverse("boards:board_topics", kwargs={"board_slug":board.slug}))
+        else:
+            messages.warning(request, 'ValueError! Invalid input')
+            return redirect(reverse("boards:new_board_topic", kwargs={"board_slug":board.slug}))
 
 
 
@@ -75,7 +78,7 @@ class NewTopicPostView(LoginRequiredMixin, View):
 
 
     def post(self, request, *args, **kwargs):
-        form = NewTopicPostForm(request.POST)
+        form = NewTopicPostForm(data=request.POST)
         topic = get_object_or_404(Topic, slug=self.kwargs["topic_slug"], pk=self.kwargs["topic_pk"])
         if form.is_valid():
             post = form.save(commit=False)
@@ -84,9 +87,12 @@ class NewTopicPostView(LoginRequiredMixin, View):
             post.save()
             topic.updated_on = timezone.now()
             topic.save()
-            messages.info(request, 'post successfully added')
+            messages.info(request, 'Reply successfully added')
             return redirect(reverse("boards:topic_posts", kwargs={"board_slug":topic.board.slug, "topic_slug":topic.slug, "topic_pk":topic.pk}))
-        
+        else:
+            messages.warning(request, 'ValueError! Invalid input')
+            return redirect(reverse("boards:new_topic_post", kwargs={"board_slug":topic.board.slug, 'topic_slug':topic.slug, 'topic_pk': topic.pk}))
+
 
 class PostUpdateView(View):
     def get(self, request, *args, **kwargs):
@@ -104,7 +110,9 @@ class PostUpdateView(View):
             post.updated_on = timezone.now()
             messages.info(request, 'post updated successfully')
             return redirect(reverse("boards:topic_posts", kwargs={"board_slug":topic.board.slug, "topic_slug":topic.slug, "topic_pk":topic.pk}))
-
+        else:
+            messages.warning(request, 'ValueError! Invalid input')
+            return redirect(reverse("boards:post_update", kwargs={"board_slug":topic.board.slug, 'topic_slug':topic.slug, 'topic_pk': topic.pk, 'post_pk': post.pk}))
 class SearchView(View):
     def get(self, request, *args, **kwargs):
         q = request.GET.get('q', None)
@@ -117,3 +125,16 @@ class SearchView(View):
             search_list = search_list.order_by('topic')       
         context = {'search_list': search_list, 'q':q}
         return render(request, 'search.html', context)
+
+def cookie(request):
+    if 'fav_color' in request.COOKIES:
+        return HttpResponse('Your favourite color is %s' % request.COOKIES['fav_color'])
+    return HttpResponse('Your favourite color is not set!')
+
+def set_cookie(request):
+    if 'fav_cookie' in request.GET:
+        resp = HttpResponse('Your fav_colour is %s' % request.GET['fav_cookie'])
+        resp.set_cookie('fav_cookie', request.GET['fav_cookie'])
+        return resp
+    else:
+        return HttpResponse('No fav_cookie')

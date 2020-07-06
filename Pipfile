@@ -22,6 +22,10 @@ django-admin-honeypot = "*"
 pillow = "*"
 django-storages = "*"
 django-imagekit = "*"
+djangorestframework = "*"
+django-rest-auth = "*"
+django-filter = "*"
+django-ckeditor = "*"
 
 [requires]
 python_version = "3.8"

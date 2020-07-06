@@ -4,6 +4,8 @@ from django.contrib.auth import get_user_model
 from django.utils.html import mark_safe
 from markdown import markdown
 from django.template.defaultfilters import slugify
+from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
 
 BADGES_CATEGORY = (
     ('P', 'primary'),
@@ -38,13 +40,19 @@ class Board(models.Model):
     def get_last_post(self):
         last_post = Post.objects.filter(topic__board=self).order_by("-created_on").first()
         return last_post
+        
+    def get_last_post_API(self):
+        last_post = Post.objects.filter(topic__board=self).order_by("-created_on").first()
+        if last_post:
+            return last_post.created_by
+        return 'No post yet'
 
 class Topic(models.Model):
     board = models.ForeignKey(Board, related_name='topics', on_delete=models.CASCADE)
-    topic = models.CharField(max_length=200) 
+    topic = models.CharField(max_length=200, unique=True) 
     slug = models.SlugField(blank=True, max_length=200)
     views = models.PositiveIntegerField(default=0)
-    starter = models.ForeignKey(get_user_model(), related_name="topics", null=True, on_delete=models.SET_NULL)
+    starter = models.ForeignKey(get_user_model(), related_name="topics", on_delete=models.CASCADE)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now_add=True)
 
@@ -61,7 +69,7 @@ class Topic(models.Model):
 
 class Post(models.Model):
     topic = models.ForeignKey(Topic, related_name='posts',on_delete=models.CASCADE)
-    post = models.TextField()
+    post = RichTextUploadingField()
     slug = models.SlugField(blank=True, max_length=200)
     created_by = models.ForeignKey(get_user_model(), related_name='posts', on_delete=models.CASCADE)
     updated_by = models.ForeignKey(get_user_model(), related_name="+", on_delete=models.CASCADE, blank=True, null=True)

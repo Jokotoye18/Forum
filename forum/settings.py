@@ -37,14 +37,14 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='127.0.0.1', cast=Csv())
 ENVIRONMENT =config('ENVIRONMENT', default='production')
 
 
-sentry_sdk.init(
-    dsn=config('SENTRY_DSN'),
-    integrations=[DjangoIntegration()],
+# sentry_sdk.init(
+#     dsn=config('SENTRY_DSN'),
+#     integrations=[DjangoIntegration()],
 
-    # If you wish to associate users to errors (assuming you are using
-    # django.contrib.auth) you may enable sending PII data.
-    send_default_pii=True
-)
+#     # If you wish to associate users to errors (assuming you are using
+#     # django.contrib.auth) you may enable sending PII data.
+#     send_default_pii=True
+# )
 
 # Application definition
 
@@ -58,17 +58,31 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.humanize',
+    
 
     #third party app
+    #rest_framework
+    'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
+    'rest_auth.registration',
+
+    #allauth
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'debug_toolbar',
-    'imagekit',
-    
-    #social 
+    #allauth social
     'allauth.socialaccount.providers.github', 
     'allauth.socialaccount.providers.google',
+
+    #others
+    'debug_toolbar',
+    'imagekit',
+    'django_filters',
+    'ckeditor',
+    'ckeditor_uploader',
+
+    
     'crispy_forms',
     'admin_honeypot',
 
@@ -128,6 +142,45 @@ DATABASES = {
 }
 SITE_ID = 1
 
+#ckeditor
+CKEDITOR_UPLOAD_PATH = "uploads/"
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+CKEDITOR_JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js'
+CKEDITOR_IMAGE_BACKEND = "pillow"
+
+
+CKEDITOR_CONFIGS = {
+    # django-ckeditor defaults
+    'default': {
+        # Editor Width Adaptation
+        'skin': 'moono',
+        'width':'auto',
+        'height':'250px',
+        # tab key conversion space number
+        'tabSpaces': 4,
+        # Toolbar Style
+        'toolbar': 'Custom',
+        # Toolbar buttons
+        'toolbar_Custom': [
+            # Emotional Code Block
+            ['CodeSnippet', 'Source'], 
+            # Font Style
+            ['Bold', 'Italic', 'Underline', 'Code', 'Blockquote', 'RemoveFormat', '-'],
+            # Font color
+            ['TextColor', 'BGColor', 'Styles', 'Format', 'Font', 'Code', 'FontSize'],
+            #insert
+            ['Image', 'Table', 'Iframe'],
+            # Link link
+            ['Link', 'Unlink'],
+            # List of items
+            ['NumberedList', 'BulletedList', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock',],
+            # Maximization
+            ['Maximize', 'Preview', 'ShowBlocks', 'About']
+        ],
+        # Add Code Block Plug-ins
+        'extraPlugins': ','.join(['codesnippet', 'uploadimage']),
+    }
+}
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -240,7 +293,6 @@ if ENVIRONMENT == 'production':
     CSRF_COOKIE_HTTPONLY = True  # only accessible through http(s) request, JS not allowed to access csrf cookies
 
     
-    X_FRAME_OPTIONS = 'DENY'
     # SECURE_REFERRER_POLICY = 'same-origin'
     
     SECURE_CONTENT_TYPE_NOSNIFF = True
@@ -252,4 +304,12 @@ if ENVIRONMENT == 'production':
     SESSION_COOKIE_HTTPONLY = True
     #django-csp(Details at official docs)
 
-django_heroku.settings(locals())
+# django_heroku.settings(locals())
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS':	(
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.OrderingFilter',
+        'rest_framework.filters.SearchFilter',
+    )	
+}
