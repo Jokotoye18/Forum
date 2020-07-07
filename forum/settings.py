@@ -96,10 +96,10 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',# whitenoise
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.cache.UpdateCacheMiddleware', #cache
+    # 'django.middleware.cache.UpdateCacheMiddleware', #cache
     'django.middleware.common.CommonMiddleware',
     "django.middleware.common.BrokenLinkEmailsMiddleware", #Manager
-    'django.middleware.cache.FetchFromCacheMiddleware',#cache
+    # 'django.middleware.cache.FetchFromCacheMiddleware',#cache
     'debug_toolbar.middleware.DebugToolbarMiddleware',# debug toolbar
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
