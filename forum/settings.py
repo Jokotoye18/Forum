@@ -96,7 +96,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',# whitenoise
     'django.contrib.sessions.middleware.SessionMiddleware',
-    # 'django.middleware.cache.UpdateCacheMiddleware', #cache
+    # 'django.middleware.cache.UpdateCacheMiddleware', #
     'django.middleware.common.CommonMiddleware',
     "django.middleware.common.BrokenLinkEmailsMiddleware", #Manager
     # 'django.middleware.cache.FetchFromCacheMiddleware',#cache
