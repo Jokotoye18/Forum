@@ -137,12 +137,12 @@ WSGI_APPLICATION = 'forum.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
 
 DATABASE_URL = config('DATABASE_URL')
 db_from_env = dj_database_url.config(default=DATABASE_URL, conn_max_age=500, ssl_require=True)
@@ -312,7 +312,7 @@ if ENVIRONMENT == 'production':
         }
     }
     
-    SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+    # SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 
     #HTTP Strict Transport Security (HSTS)
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
