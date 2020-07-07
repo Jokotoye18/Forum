@@ -96,10 +96,10 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',# whitenoise
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.cache.UpdateCacheMiddleware', #cache framework
+    # 'django.middleware.cache.UpdateCacheMiddleware', #cache framework
     'django.middleware.common.CommonMiddleware',
     "django.middleware.common.BrokenLinkEmailsMiddleware", #Manager
-    'django.middleware.cache.FetchFromCacheMiddleware',#cache framework
+    # 'django.middleware.cache.FetchFromCacheMiddleware',#cache framework
     'debug_toolbar.middleware.DebugToolbarMiddleware',# debug toolbar
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -312,7 +312,6 @@ if ENVIRONMENT == 'production':
         }
     }
     
-    # SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 
     #HTTP Strict Transport Security (HSTS)
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
