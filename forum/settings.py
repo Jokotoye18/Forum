@@ -324,7 +324,7 @@ if ENVIRONMENT == 'production':
     CSRF_COOKIE_HTTPONLY = True  # only accessible through http(s) request, JS not allowed to access csrf cookies
 
     
-    SECURE_REFERRER_POLICY = 'same-origin'
+    # SECURE_REFERRER_POLICY = 'same-origin'
     
     SECURE_CONTENT_TYPE_NOSNIFF = True
     SESSION_COOKIE_SECURE = True
