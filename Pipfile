@@ -27,6 +27,7 @@ django-filter = "*"
 django-ckeditor = "*"
 boto3 = "*"
 whitenoise = "*"
+python-memcached = "*"
 
 [requires]
 python_version = "3.8"

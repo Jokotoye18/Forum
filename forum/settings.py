@@ -96,7 +96,10 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',# whitenoise
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.cache.UpdateCacheMiddleware', #cache framework
     'django.middleware.common.CommonMiddleware',
+    "django.middleware.common.BrokenLinkEmailsMiddleware", #Manager
+    'django.middleware.cache.FetchFromCacheMiddleware',#cache framework
     'debug_toolbar.middleware.DebugToolbarMiddleware',# debug toolbar
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -274,6 +277,14 @@ EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
 
 DEFAULT_FROM_EMAIL = 'Forum <jokotoyeademola995@gmail.com>'
 
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+
+MANAGER = (
+    ('Jokotoye Ademola', 'jokotoyeademola995@gmail.com'),
+)
+
+ADMIN = MANAGER
+
 # #AWS config
 # AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
 # AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
@@ -295,6 +306,8 @@ if ENVIRONMENT == 'production':
         }
     }
     
+    SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+
     #HTTP Strict Transport Security (HSTS)
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_SSL_REDIRECT = True
@@ -306,7 +319,7 @@ if ENVIRONMENT == 'production':
     CSRF_COOKIE_HTTPONLY = True  # only accessible through http(s) request, JS not allowed to access csrf cookies
 
     
-    # SECURE_REFERRER_POLICY = 'same-origin'
+    SECURE_REFERRER_POLICY = 'same-origin'
     
     SECURE_CONTENT_TYPE_NOSNIFF = True
     SESSION_COOKIE_SECURE = True

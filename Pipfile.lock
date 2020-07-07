@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "b660e5b0d3a96aa9fe12e67f5ba4dd17e1373e97656fad0ec8dd924907402c10"
+            "sha256": "5d22ecdd5d2be0a7c31060f0584f0d42119abf7e73759ab99cf49c2152cff7a1"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -289,6 +289,14 @@
             ],
             "index": "pypi",
             "version": "==3.3"
+        },
+        "python-memcached": {
+            "hashes": [
+                "sha256:4dac64916871bd3550263323fc2ce18e1e439080a2d5670c594cf3118d99b594",
+                "sha256:a2e28637be13ee0bf1a8b6843e7490f9456fd3f2a4cb60471733c7b5d5557e4f"
+            ],
+            "index": "pypi",
+            "version": "==1.59"
         },
         "python3-openid": {
             "hashes": [
