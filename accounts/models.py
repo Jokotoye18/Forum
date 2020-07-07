@@ -7,7 +7,7 @@ from pilkit.processors import ResizeToFill
 class Profile(models.Model):
     user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
     image = models.ImageField(upload_to='profile_pics', default='default.jpg')
-    image_thumbnail	= ImageSpecField(source='image', processors=[ResizeToFill(350, 400)], format='JPEG', options={'quality': 60})
+    image_thumbnail	= ImageSpecField(source='image', processors=[ResizeToFill(350, 400)], format='JPEG', options={'quality': 45})
 
 
     objects = models.Manager

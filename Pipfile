@@ -26,6 +26,7 @@ django-rest-auth = "*"
 django-filter = "*"
 django-ckeditor = "*"
 boto3 = "*"
+whitenoise = "*"
 
 [requires]
 python_version = "3.8"

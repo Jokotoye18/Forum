@@ -25,7 +25,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-2">
-                                        <img src="{{ subject.created_by|gravatar_img:50 }}" alt="{{ subject.created_by.username }}" class="w-100 rounded">
+                                        <img src="{{ subject.created_by|gravatar_img }}" alt="{{ subject.created_by.username }}" class="w-100 rounded">
                                         <small>Posts: {{ subject.created_by.posts.count }}</small>
                                     </div>
                                     <div class="col-10">
@@ -51,7 +51,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-2">
-                                            <img src="{{ reply.created_by|gravatar_img:50 }}" alt="{{ reply.created_by.username }}" class="w-100 rounded">
+                                            <img src="{{ reply.created_by|gravatar_img }}" alt="{{ reply.created_by.username }}" class="w-100 rounded">
                                             <small>posts: {{ reply.created_by.posts.count }}</small>
                                         </div>
                                         <div class="col-10">
