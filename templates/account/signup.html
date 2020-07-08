@@ -21,7 +21,7 @@
             <!-- {% if redirect_field_value %}
             <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
             {% endif %} -->
-            <input type="hidden" name="{{ redirect_field_name }}" value="{% url 'profiles:profile' request.user %}" />
+            <input type="hidden" name="{{ redirect_field_name }}" value="{% url 'profiles:profile' %}" />
             <button class="btn btn-dark" type="submit">{% trans "Sign Up" %} &raquo;</button>
           </form>
           

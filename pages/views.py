@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import View
 from boards.models import Board
+from allauth.account.views import password_change
 
 class HomeView(View):
     

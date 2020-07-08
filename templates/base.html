@@ -24,7 +24,7 @@
             <!--Navbar-->
             <nav class="navbar navbar-expand-md">
                 <!-- Navbar brand -->
-                <a class="navbar-brand" href="{% url 'pages:homepage' %}">Forum</a>
+                <a class="navbar-brand" href="{% url 'pages:home' %}">Forum</a>
             
                 <!-- Collapse button -->
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
@@ -49,7 +49,7 @@
                         </a>
                         <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
                             <a class="dropdown-item" href="{% url 'account_change_password' %}">Change password</a>
-                            <a class="dropdown-item" href="{% url 'profiles:profile' request.user.username %}">Update account</a>
+                            <a class="dropdown-item" href="{% url 'profiles:profile' %}">Update account</a>
                             <a class="dropdown-item" href="{% url 'account_email' %}">Set E-mail</a>
                             <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
                         </div>

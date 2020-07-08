@@ -3,5 +3,5 @@ from .views import HomeView
 app_name = 'pages'
 
 urlpatterns = [
-    path('', HomeView.as_view(), name='homepage'),
+    path('', HomeView.as_view(), name='home'),
 ]

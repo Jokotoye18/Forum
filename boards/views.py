@@ -11,6 +11,7 @@ from django.views.generic import ListView, CreateView,DetailView, View
 from django.views.generic.edit import UpdateView, DeleteView
 from django.utils import timezone
 from django.contrib.admin.views.decorators import staff_member_required
+from allauth.account.views import PasswordChangeView
 
 
 class BoardTopicsView(View):

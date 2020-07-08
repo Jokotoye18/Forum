@@ -21,6 +21,6 @@ class UserProfileView(LoginRequiredMixin, View):
             form_user.save()
             form_profile.save()
             messages.info(request, 'profile updated successfully')
-            return redirect(reverse('profiles:profile', kwargs={'username':request.user}))
+            return redirect(reverse('profiles:profile'))
 
 

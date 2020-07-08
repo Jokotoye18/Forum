@@ -24,3 +24,8 @@ if settings.DEBUG:
     urlpatterns = [
         path('__debug__/', include(debug_toolbar.urls)),
     ] + urlpatterns
+
+
+admin.site.site_header = "Forum Admin"
+admin.site.site_title = "Forum Admin Portal"
+admin.site.index_title = "Welcome to Forum Portal"
