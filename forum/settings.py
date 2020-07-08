@@ -335,7 +335,7 @@ if ENVIRONMENT == 'production':
     SESSION_COOKIE_HTTPONLY = True
     #django-csp(Details at official docs)
 
-# django_heroku.settings(locals())
+django_heroku.settings(locals())
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS':	(
