@@ -144,9 +144,9 @@ DATABASES = {
     }
 }
 
-# DATABASE_URL = config('DATABASE_URL')
-# db_from_env = dj_database_url.config(default=DATABASE_URL, conn_max_age=500, ssl_require=True)
-# DATABASES['default'].update(db_from_env)
+DATABASE_URL = config('DATABASE_URL')
+db_from_env = dj_database_url.config(default=DATABASE_URL, conn_max_age=500, ssl_require=True)
+DATABASES['default'].update(db_from_env)
 
 
 SITE_ID = 1
@@ -267,6 +267,7 @@ ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = False
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE =  True 
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True 
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_USERNAME_REQUIRED  = True
 ACCOUNT_UNIQUE_USERNAME = True 
 
