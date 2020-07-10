@@ -80,12 +80,11 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'imagekit',
     'django_filters',
-    'ckeditor',
-    'ckeditor_uploader',
+    'martor',
     'crispy_forms',
     'admin_honeypot',
     'storages',
-
+    
     #local app
     'accounts',
     'pages',
@@ -96,10 +95,8 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',# whitenoise
     'django.contrib.sessions.middleware.SessionMiddleware',
-    # 'django.middleware.cache.UpdateCacheMiddleware', #
     'django.middleware.common.CommonMiddleware',
     "django.middleware.common.BrokenLinkEmailsMiddleware", #Manager
-    # 'django.middleware.cache.FetchFromCacheMiddleware',#cache
     'debug_toolbar.middleware.DebugToolbarMiddleware',# debug toolbar
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -144,54 +141,35 @@ DATABASES = {
     }
 }
 
-DATABASE_URL = config('DATABASE_URL')
-db_from_env = dj_database_url.config(default=DATABASE_URL, conn_max_age=500, ssl_require=True)
-DATABASES['default'].update(db_from_env)
+# DATABASE_URL = config('DATABASE_URL')
+# db_from_env = dj_database_url.config(default=DATABASE_URL, conn_max_age=500, ssl_require=True)
+# DATABASES['default'].update(db_from_env)
 
 
 SITE_ID = 1
 
-#ckeditor
-CKEDITOR_UPLOAD_PATH = "uploads/"
-X_FRAME_OPTIONS = 'SAMEORIGIN'
-CKEDITOR_IMAGE_BACKEND = "pillow"
-AWS_QUERYSTRING_AUTH = False
-CKEDITOR_ALLOW_NONIMAGE_FILES = False
-
-
-CKEDITOR_CONFIGS = {
-    # django-ckeditor defaults
-    'default': {
-        # Editor Width Adaptation
-        'skin': 'moono',
-        'width':'auto',
-        'height':'250px',
-        # tab key conversion space number
-        'tabSpaces': 4,
-        # Toolbar Style
-        'toolbar': 'Custom',
-        # Toolbar buttons
-        'toolbar_Custom': [
-            # Emotional Code Block
-            ['CodeSnippet', 'Source'], 
-            # Font Style
-            ['Bold', 'Italic', 'Underline', 'Code', 'Blockquote', 'RemoveFormat', '-'],
-            # Font color
-            ['TextColor', 'BGColor', 'Styles', 'Format', 'Font', 'Code', 'FontSize'],
-            #insert
-            ['Image', 'Table', 'Iframe'],
-            # Link link
-            ['Link', 'Unlink'],
-            # List of items
-            ['NumberedList', 'BulletedList', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock',],
-            # Maximization
-            ['Maximize', 'Preview', 'ShowBlocks', 'About']
-        ],
-        # Add Code Block Plug-ins
-        'extraPlugins': ','.join(['codesnippet', 'uploadimage']),
-    }
+#Martor
+CSRF_COOKIE_HTTPONLY = False
+MARTOR_ENABLE_CONFIGS = {
+    'emoji': 'true',        # to enable/disable emoji icons.
+    'imgur': 'false',        # to enable/disable imgur/custom uploader.
+    'mention': 'true',     # to enable/disable mention
+    'jquery': 'true',       # to include/revoke jquery (require for admin default django)
+    'living': 'false',      # to enable/disable live updates in preview
+    'spellcheck': 'false',  # to enable/disable spellcheck in form textareas
+    'hljs': 'true',         # to enable/disable hljs highlighting in preview
 }
 
+# To setup the martor editor with label or not (default is False)
+MARTOR_ENABLE_LABEL = False
+
+import time
+MARTOR_UPLOAD_PATH = 'images/uploads/{}'.format(time.strftime("%Y/%m/%d/"))
+MARTOR_UPLOAD_URL = '/api/uploader/'  # change to local uploader
+
+MAX_IMAGE_UPLOAD_SIZE = 2621440  # 2MB
+
+#crispy-form
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Password validation
@@ -322,7 +300,6 @@ if ENVIRONMENT == 'production':
 
     #Cross-Site Request Forgery (CSRF)
     CSRF_COOKIE_SECURE = True  # cookie will only be sent over an HTTPS connection
-    CSRF_COOKIE_HTTPONLY = True  # only accessible through http(s) request, JS not allowed to access csrf cookies
 
     
     # SECURE_REFERRER_POLICY = 'same-origin'
@@ -336,7 +313,7 @@ if ENVIRONMENT == 'production':
     SESSION_COOKIE_HTTPONLY = True
     #django-csp(Details at official docs)
 
-django_heroku.settings(locals())
+# django_heroku.settings(locals())
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS':	(

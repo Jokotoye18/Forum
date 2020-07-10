@@ -3,6 +3,7 @@
 {% load static %}
 {% load humanize %} 
 {% load gravatar %}
+{% load martortags %}
 {% block title %}Forum-{{ topic }} reply{% endblock %}
 
 
@@ -44,7 +45,7 @@
                                 {% endif %}
                             </div>
                             <div class="col-10">
-                                <p>{{ subject.get_message_as_markdown  }}</p>
+                                <p>{{ subject.post|safe_markdown }}</p>
                             </div>
                         </div>
                     </div>
@@ -65,7 +66,7 @@
                                     <small>posts: {{ reply.created_by.posts.count }}</small>
                                 </div>
                                 <div class="col-10">
-                                    <p>{{ reply.get_message_as_markdown  }}</p>
+                                    <p>{{ reply.post|safe_markdown  }}</p>
                                 </div>
                             </div>
                         </div>

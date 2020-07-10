@@ -2,7 +2,6 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path, include
-from ckeditor_uploader import urls 
 
 
 urlpatterns = [
@@ -10,7 +9,7 @@ urlpatterns = [
     path('admin@jokotoye18/', admin.site.urls),
     # path('rest-auth/', include('rest_auth.urls')),
     # path('rest-auth/registration/', include('rest_auth.registration.urls')),
-    path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('martor/', include('martor.urls')),
     path('', include('pages.urls')),
     path('account/', include('accounts.urls')),
     path('accounts/', include('allauth.urls')),
@@ -24,7 +23,6 @@ if settings.DEBUG:
     urlpatterns = [
         path('__debug__/', include(debug_toolbar.urls)),
     ] + urlpatterns
-
 
 admin.site.site_header = "Forum Admin"
 admin.site.site_title = "Forum Admin Portal"

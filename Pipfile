@@ -24,10 +24,11 @@ django-imagekit = "*"
 djangorestframework = "*"
 django-rest-auth = "*"
 django-filter = "*"
-django-ckeditor = "*"
 boto3 = "*"
 whitenoise = "*"
 python-memcached = "*"
+martor = "*"
+requests = "*"
 
 [requires]
 python_version = "3.8"

@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load humanize %} 
 {% load gravatar %}
+{% load static %}
+{% load martortags %}
 
 {% block title %}Forum-{{ topic }}{% endblock %}
 
@@ -29,7 +31,7 @@
                                         <small>Posts: {{ subject.created_by.posts.count }}</small>
                                     </div>
                                     <div class="col-10">
-                                        <p>{{ subject.get_message_as_markdown }}</p>
+                                        <p>{{ subject.post|safe_markdown  }}</p>
                                     </div>
                                 </div>                                
                                 {% if subject.created_by == request.user %}
@@ -55,7 +57,7 @@
                                             <small>posts: {{ reply.created_by.posts.count }}</small>
                                         </div>
                                         <div class="col-10">
-                                            <p >{{ reply.get_message_as_markdown }}</p>
+                                            <p >{{ reply.post|safe_markdown  }}</p>
                                         </div>
                                     </div>
                                     {% if reply.created_by == request.user %}

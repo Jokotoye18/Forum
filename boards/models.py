@@ -4,8 +4,8 @@ from django.contrib.auth import get_user_model
 from django.utils.html import mark_safe
 from markdown import markdown
 from django.template.defaultfilters import slugify
-from ckeditor.fields import RichTextField
-from ckeditor_uploader.fields import RichTextUploadingField
+from martor.models import MartorField
+
 
 BADGES_CATEGORY = (
     ('P', 'primary'),
@@ -69,7 +69,7 @@ class Topic(models.Model):
 
 class Post(models.Model):
     topic = models.ForeignKey(Topic, related_name='posts',on_delete=models.CASCADE)
-    post = RichTextUploadingField()
+    post = MartorField()
     slug = models.SlugField(blank=True, max_length=200)
     created_by = models.ForeignKey(get_user_model(), related_name='posts', on_delete=models.CASCADE)
     updated_by = models.ForeignKey(get_user_model(), related_name="+", on_delete=models.CASCADE, blank=True, null=True)
@@ -86,12 +86,8 @@ class Post(models.Model):
         self.slug = slugify(self.topic)
         return super().save(*args, **kwargs)
 
-    def get_message_as_markdown(self):
+    def get_post_as_markdown(self):
         return mark_safe(markdown(self.post, safe_mode='escape'))
-
-    # def get_post(self):
-    #     post = Post.objects.first()
-    #     return post
     
 
 
