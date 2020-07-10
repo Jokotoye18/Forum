@@ -10,6 +10,6 @@ register = template.Library()
 def gravatar_img(user, size=35):
     email = str(user.email.strip().lower()).encode('utf-8')
     email_hash = md5(email).hexdigest()
-    url = f'{user.profile.image_thumbnail.url}'
+    url = f'{user.profile.image.url}'
     return url.format(email_hash, size)
     

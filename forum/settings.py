@@ -82,7 +82,7 @@ INSTALLED_APPS = [
     'django_filters',
     'martor',
     'crispy_forms',
-    'admin_honeypot',
+    'admin_honeypot', 
     'storages',
     
     #local app
@@ -141,9 +141,9 @@ DATABASES = {
     }
 }
 
-DATABASE_URL = config('DATABASE_URL')
-db_from_env = dj_database_url.config(default=DATABASE_URL, conn_max_age=500, ssl_require=True)
-DATABASES['default'].update(db_from_env)
+# DATABASE_URL = config('DATABASE_URL')
+# db_from_env = dj_database_url.config(default=DATABASE_URL, conn_max_age=500, ssl_require=True)
+# DATABASES['default'].update(db_from_env)
 
 
 SITE_ID = 1
@@ -164,10 +164,10 @@ MARTOR_ENABLE_CONFIGS = {
 MARTOR_ENABLE_LABEL = False
 
 import time
-MARTOR_UPLOAD_PATH = 'images/uploads/{}'.format(time.strftime("%Y/%m/%d/"))
-MARTOR_UPLOAD_URL = '/api/uploader/'  # change to local uploader
+# MARTOR_UPLOAD_PATH = 'images/uploads/{}'.format(time.strftime("%Y/%m/%d/"))
+# MARTOR_UPLOAD_URL = '/api/uploader/'  # change to local uploader
 
-MAX_IMAGE_UPLOAD_SIZE = 2621440  # 2MB
+# MAX_IMAGE_UPLOAD_SIZE = 2621440  # 2MB
 
 #crispy-form
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -215,12 +215,40 @@ INTERNAL_IPS = [
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+
+#AWS config
+# AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+# AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+# AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
+# AWS_S3_FILE_OVERWRITE = False
+# AWS_DEFAULT_ACL = None
+# AWS_REGION = config('AWS_REGION')
+# S3_USE_SIGV4 = config('S3_USE_SIGV4', cast=bool)
+# print(AWS_ACCESS_KEY_ID, AWS_DEFAULT_ACL, AWS_S3_FILE_OVERWRITE, AWS_SECRET_ACCESS_KEY, AWS_STORAGE_BUCKET_NAME, AWS_REGION, S3_USE_SIGV4)
+
+
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+# AWS_S3_SIGNATURE_VERSION = "s3v4"
+# AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+# AWS_LOCATION = 'static'
+# AWS_S3_OBJECT_PARAMETERS = {
+#     'CacheControl': 'max-age=86400',
+# }
+
+
+
+
+
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+
+# STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
 # STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
 
 
 MEDIA_URL = '/media/'
@@ -270,14 +298,7 @@ MANAGER = (
 
 ADMIN = MANAGER
 
-# #AWS config
-# AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
-# AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
-# AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
-# AWS_S3_FILE_OVERWRITE = False
-# AWS_DEFAULT_ACL = None
 
-# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 
 if ENVIRONMENT == 'production':
@@ -313,7 +334,7 @@ if ENVIRONMENT == 'production':
     SESSION_COOKIE_HTTPONLY = True
     #django-csp(Details at official docs)
 
-django_heroku.settings(locals())
+# django_heroku.settings(locals())
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS':	(
