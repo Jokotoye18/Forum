@@ -72,12 +72,14 @@ class TopicPostsView(View):
     def get(self, request, *args, **kwargs):
         topic = get_object_or_404(Topic, slug=self.kwargs.get('topic_slug'), pk=self.kwargs.get('topic_pk'))
         session_key = 'viewed_topic_{}'.format(topic.pk)
+        print(session_key)
         if not request.session.get(session_key, False):
             topic.views += 1
             topic.save()
             request.session[session_key] = True
         subject = topic.posts.first()
         replies = topic.posts.all()[1:]
+        print(request.session[session_key])
         context = {'topic':topic, 'subject': subject, 'replies': replies}
         return render(request, 'boards/topic_posts.html', context)
 
