@@ -2,6 +2,7 @@
 {% load crispy_forms_tags %}
 {% load static %}
 {% load humanize %} 
+{% load bleach %}
 {% load gravatar %}
 {% load martortags %}
 {% block title %}Forum-{{ topic }} reply{% endblock %}
@@ -45,7 +46,7 @@
                                 {% endif %}
                             </div>
                             <div class="col-10">
-                                <p>{{ subject.post|safe_markdown }}</p>
+                                <p>{{ subject.post|safe_markdown|rich_text }}</p>
                             </div>
                         </div>
                     </div>
@@ -66,7 +67,7 @@
                                     <small>posts: {{ reply.created_by.posts.count }}</small>
                                 </div>
                                 <div class="col-10">
-                                    <p>{{ reply.post|safe_markdown  }}</p>
+                                    <p>{{ reply.post|safe_markdown|rich_text  }}</p>
                                 </div>
                             </div>
                         </div>

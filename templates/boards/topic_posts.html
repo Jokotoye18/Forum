@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load humanize %} 
 {% load gravatar %}
+{% load bleach %}
 {% load static %}
 {% load martortags %}
 
@@ -31,7 +32,7 @@
                                         <small>Posts: {{ subject.created_by.posts.count }}</small>
                                     </div>
                                     <div class="col-10">
-                                        <p>{{ subject.post|safe_markdown  }}</p>
+                                        <p>{{ subject.post|safe_markdown|rich_text  }}</p>
                                     </div>
                                 </div>                                
                                 {% if subject.created_by == request.user %}
@@ -57,7 +58,7 @@
                                             <small>posts: {{ reply.created_by.posts.count }}</small>
                                         </div>
                                         <div class="col-10">
-                                            <p >{{ reply.post|safe_markdown  }}</p>
+                                            <p >{{ reply.post|safe_markdown|rich_text  }}</p>
                                         </div>
                                     </div>
                                     {% if reply.created_by == request.user %}

@@ -29,6 +29,7 @@ whitenoise = "*"
 python-memcached = "*"
 martor = "*"
 requests = "*"
+bleach = "*"
 
 [requires]
 python_version = "3.8"
