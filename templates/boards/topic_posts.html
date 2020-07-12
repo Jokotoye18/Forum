@@ -26,10 +26,10 @@
                                 <div class="mb-2">
                                     <small class="badge badge-pill badge-primary">Created by {{ subject.created_by }} | {{ subject.created_on|naturaltime }}</small>
                                 </div>
-                                <div class="row">
+                                <div class="d-flex">
                                     <div class="col-2">
                                         <img src="{{ subject.created_by|gravatar_img }}" alt="{{ subject.created_by.username }}" class="w-100 rounded">
-                                        <small>Posts: {{ subject.created_by.posts.count }}</small>
+                                        <small class="border">Posts: {{ subject.created_by.posts.count }}</small>
                                     </div>
                                     <div class="col-10">
                                         <p>{{ subject.post|safe_markdown|rich_text  }}</p>
